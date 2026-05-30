@@ -1,0 +1,62 @@
+/* ===================================================================
+   waiting-list.css — 等待入座玩家列表
+   配合 WaitingList.js 使用
+   =================================================================== */
+
+.waiting-list {
+  background: transparent;
+  pointer-events: none;
+  z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.waiting-panel {
+  pointer-events: auto;
+  background: rgba(26, 26, 46, 0.64);
+  border-radius: 10px; padding: 14px 18px;
+  width: 50%; height: 50%;
+  min-width: 200px; max-width: 85%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.waiting-title {
+  color: #FFD700; font-size: 16px;
+  margin: 0 0 10px 0; text-align: center;
+}
+
+.waiting-items {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 2px;
+}
+
+.waiting-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 12px; font-size: 15px; color: #ccc;
+  border-radius: 6px;
+  min-height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.waiting-item.is-me {
+  color: var(--color-accent, #d4a853);
+  background: rgba(212, 168, 83, 0.08);
+}
+
+.waiting-name {
+  flex: 1; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.waiting-empty {
+  color: #666; font-size: 14px;
+  text-align: center; padding: 12px 0;
+}
+
+.badge-me {
+  font-size: 11px; color: #fff;
+  background: var(--color-accent, #d4a853);
+  padding: 2px 6px; border-radius: 4px;
+  flex-shrink: 0; margin-left: 8px;
+  font-weight: bold;
+}

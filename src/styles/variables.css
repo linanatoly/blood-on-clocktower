@@ -1,0 +1,30 @@
+:root {
+  /* 主题色 */
+  --color-bg: #040218;
+  --color-bg-panel: rgba(10, 10, 40, 0.92);
+  --color-text: #e0e0e0;
+  --color-text-dim: #888;
+  --color-accent: #d4a853;
+  --color-accent-glow: rgba(212, 168, 83, 0.4);
+  --color-danger: #c0392b;
+
+  /* 字体 */
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+
+  /* 间距 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+
+  /* 层级 */
+  --z-base: 1;
+  --z-panel: 10;
+  --z-overlay: 100;
+  --z-modal: 200;
+  --z-toast: 300;
+
+  /* 游戏尺寸 */
+  --game-width: 750px;
+  --game-height: 1334px;
+}

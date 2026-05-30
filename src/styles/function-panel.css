@@ -1,0 +1,156 @@
+/* ===================================================================
+   function-panel.css — 底部功能工具栏
+   配合 FunctionPanel.js 使用
+   =================================================================== */
+
+/* ---- 顶部信息栏 ---- */
+.game-top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 12px;
+  background: transparent;
+  min-height: 28px;
+  z-index: 1;
+  margin-top: 15px;
+  flex-shrink: 0;
+}
+
+.fn-phase-text {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  color: #FFD700; font-size: 29px; font-weight: bold;
+}
+
+.fn-room-code {
+  color: #888; font-size: 13px;
+}
+
+.fn-conn-status {
+  color: #4CAF50; font-size: 12px;
+  transition: color 0.3s;
+}
+
+.fn-conn-status.disconnected {
+  color: #DA3939;
+}
+
+/* ---- 工具栏容器 ---- */
+.fn-toolbar {
+  padding: 8px 10px;
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fn-toolbar-row {
+  display: flex; gap: 6px;
+  justify-content: space-evenly; flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.fn-toolbar-row:last-child {
+  margin-bottom: 0;
+}
+
+.fn-player-row {
+  justify-content: center;
+}
+
+/* ---- 工具栏按钮 ---- */
+.fn-btn {
+  padding: 8px 14px;
+  font-size: 14px;
+  color: #fff;
+  background: #3a3a5c;
+  border: none; border-radius: 6px;
+  cursor: pointer;
+  min-height: var(--touch-min, 44px);
+  display: inline-flex; align-items: center; gap: 4px;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.fn-btn:active {
+  filter: brightness(1.2);
+}
+
+/* 各按钮颜色 */
+.fn-btn-chat     { background: #2e6b8f; position: relative; }       /* 聊天 - 蓝 */
+
+/* 聊天按钮红点提示 */
+.fn-chat-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  background: #e74c3c;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  pointer-events: none;
+}
+.fn-btn-eventlog { background: #5c4a7a; }       /* 记录 - 紫 */
+.fn-btn-start-game { background: #c0392b; }     /* 开始游戏 - 红 */
+.fn-btn-prev     { background: #8b6914; }       /* 上一阶段 - 金 */
+.fn-btn-next     { background: #8b6914; }       /* 下一阶段 - 金 */
+.fn-btn-back-pre { background: #8b4513; }       /* 返回准备 - 棕 */
+.fn-btn-end-game { background: #9b2335; }       /* 结束游戏 - 深红 */
+.fn-btn-dismiss  { background: #555; }          /* 解散房间 - 灰 */
+.fn-btn-ready    { background: #2d7d46; }       /* 准备 - 绿 */
+.fn-btn-notebook { background: #4a6c8f; }       /* 笔记本 - 浅蓝 */
+.fn-btn-spy      { background: #6b3a8f; }       /* 间谍模式 - 紫 */
+
+.fn-btn.btn-danger {
+  background: #a93226;
+}
+
+/* 间谍模式激活 */
+.fn-btn.spy-on {
+  background: #9c27b0;
+  box-shadow: 0 0 8px rgba(156, 39, 176, 0.5);
+}
+
+/* 模式切换按钮 */
+.fn-btn-mode-toggle { background: #b8860b; }               /* 暗金色 - 默认：玩家自选 */
+.fn-btn-mode-toggle.mode-god-assign { background: #8b0000; } /* 深红色 - 上帝指定激活 */
+
+/* ---- 解散确认弹窗 ---- */
+.fn-dismiss-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: var(--z-modal);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.fn-dismiss-box {
+  background: #1a1a2e; border-radius: 12px;
+  padding: 20px; min-width: 260px; max-width: 85%;
+  text-align: center;
+  border: 2px solid #4a4a8a;
+}
+
+.fn-dismiss-box h4 {
+  color: #FFD700; font-size: 18px; margin: 0 0 8px 0;
+}
+
+.fn-dismiss-box p {
+  color: #aaa; font-size: 14px; margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.fn-dismiss-actions {
+  display: flex; gap: 10px; justify-content: center;
+}
+
+.fn-dismiss-confirm,
+.fn-dismiss-cancel {
+  padding: 10px 24px; font-size: 15px;
+  border: none; border-radius: 6px;
+  cursor: pointer;
+  min-height: var(--touch-min, 44px);
+}
+
+.fn-dismiss-cancel {
+  background: #555; color: #fff;
+}
+
+.fn-dismiss-cancel:active {
+  background: #777;
+}

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>血染钟楼 · 服务器管理面板</title>
+  <style>
+    :root {
+      --bg: #040218;
+      --panel: rgba(10, 10, 40, 0.92);
+      --text: #e0e0e0;
+      --text-dim: #888;
+      --accent: #d4a853;
+      --accent-glow: rgba(212, 168, 83, 0.3);
+      --danger: #c0392b;
+      --success: #27ae60;
+      --info: #2980b9;
+      --radius: 12px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse at 20% 20%, rgba(212,168,83,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(212,168,83,0.03) 0%, transparent 50%);
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    /* ---------- 头部 ---------- */
+    .header {
+      text-align: center;
+      padding: 32px 0 20px;
+      border-bottom: 1px solid rgba(212,168,83,0.15);
+      margin-bottom: 28px;
+    }
+    .header-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+    .header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      background: linear-gradient(180deg, var(--accent) 0%, #b8923a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+    }
+    .header .subtitle {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+
+    /* ---------- 状态卡片网格 ---------- */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .stat-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .stat-dot.online {
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(39,174,96,0.5);
+      animation: pulse-dot 2s infinite;
+    }
+    .stat-dot.offline {
+      background: var(--danger);
+      box-shadow: 0 0 10px rgba(192,57,43,0.5);
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 6px rgba(39,174,96,0.4); }
+      50% { box-shadow: 0 0 16px rgba(39,174,96,0.8); }
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .stat-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ---------- 面板通用 ---------- */
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+    .panel-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel-title .icon {
+      font-size: 18px;
+    }
+
+    /* ---------- URL 卡片 ---------- */
+    .url-section {
+      margin-bottom: 18px;
+    }
+    .url-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.25);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .url-label {
+      font-size: 12px;
+      color: var(--text-dim);
+      white-space: nowrap;
+      min-width: 70px;
+    }
+    .url-link {
+      font-size: 16px;
+      font-weight: 600;
+      color: #5dade2;
+      word-break: break-all;
+      flex: 1;
+      user-select: all;
+    }
+    .url-link.lan {
+      font-size: 20px;
+      color: #f0c040;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      font-family: var(--font);
+    }
+    .btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.25);
+    }
+    .btn.btn-primary {
+      background: rgba(212,168,83,0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn.btn-primary:hover {
+      background: rgba(212,168,83,0.25);
+    }
+    .btn.btn-danger {
+      background: rgba(192,57,43,0.15);
+      border-color: var(--danger);
+      color: #e74c3c;
+    }
+    .btn.btn-danger:hover {
+      background: rgba(192,57,43,0.3);
+    }
+    .btn:active { transform: scale(0.96); }
+
+    .url-qr-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .qr-img {
+      width: 90px; height: 90px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #fff;
+      padding: 3px;
+      flex-shrink: 0;
+    }
+    .copy-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #000;
+      padding: 8px 24px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 999;
+    }
+    .copy-toast.show { opacity: 1; }
+
+    /* ---------- 房间列表 ---------- */
+    .room-list-empty {
+      text-align: center;
+      color: var(--text-dim);
+      padding: 20px;
+      font-size: 14px;
+    }
+    .room-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .room-code {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    .room-info {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .room-info span {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .badge-playing { background: rgba(39,174,96,0.2); color: var(--success); }
+    .badge-preparing { background: rgba(41,128,185,0.2); color: #5dade2; }
+    .badge-ended { background: rgba(136,136,136,0.2); color: var(--text-dim); }
+
+    /* ---------- 操作区 ---------- */
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-top: 8px;
+    }
+
+    /* ---------- 启动中覆盖层 ---------- */
+    .startup-overlay {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 16px;
+    }
+    .startup-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(212,168,83,0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .startup-text {
+      font-size: 15px;
+      color: var(--text-dim);
+    }
+
+    /* ---------- 错误状态 ---------- */
+    .error-banner {
+      background: rgba(192,57,43,0.15);
+      border: 1px solid var(--danger);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #e74c3c;
+    }
+
+    /* ---------- 确认对话框 ---------- */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+    .confirm-overlay.hidden { display: none; }
+    .confirm-box {
+      background: #16163a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 28px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+    }
+    .confirm-box h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+    .confirm-box p {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+    .confirm-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* ---------- 响应式 ---------- */
+    @media (max-width: 500px) {
+      .container { padding: 12px 10px 30px; }
+      .header h1 { font-size: 20px; }
+      .status-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .url-link.lan { font-size: 16px; }
+      .room-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .qr-img { width: 70px; height: 70px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 复制提示 toast -->
+  <div id="toast" class="copy-toast"></div>
+
+  <!-- 确认关闭对话框 -->
+  <div id="confirmOverlay" class="confirm-overlay hidden">
+    <div class="confirm-box">
+      <h3>⚠️ 确认停止服务器？</h3>
+      <p>所有已连接的玩家将被断开，正在进行的游戏会中断。</p>
+      <div class="confirm-actions">
+        <button class="btn" onclick="hideConfirm()">取消</button>
+        <button class="btn btn-danger" id="btnConfirmShutdown">确认停止</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 启动中 / 离线状态 -->
+  <div id="offlineView" class="startup-overlay">
+    <div id="offlineIcon" style="display:none;font-size:48px;margin-bottom:4px;">⚠️</div>
+    <div class="startup-spinner" id="offlineSpinner"></div>
+    <div class="startup-text" id="offlineText">正在连接服务器...</div>
+    <div id="offlineHint" style="display:none;font-size:13px;color:var(--text-dim);margin-top:8px;text-align:center;max-width:400px;line-height:1.6;"></div>
+  </div>
+
+  <!-- 主面板（初始隐藏） -->
+  <div id="mainPanel" class="container" style="display:none">
+    <!-- 头部 -->
+    <div class="header">
+      <div class="header-icon">🕰️</div>
+      <h1>血染钟楼 · 服务器管理面板</h1>
+      <div class="subtitle">BLOOD ON THE CLOCKTOWER · SERVER DASHBOARD</div>
+    </div>
+
+    <!-- 状态卡片 -->
+    <div class="status-grid">
+      <div class="stat-card">
+        <div class="stat-dot online" id="dotStatus"></div>
+        <div>
+          <div class="stat-label">服务器状态</div>
+          <div class="stat-value" id="valStatus">运行中</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">运行时长</div>
+          <div class="stat-value" id="valUptime">--</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">连接数</div>
+          <div class="stat-value" id="valConnections">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">活跃房间</div>
+          <div class="stat-value" id="valRoomCount">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 错误横幅 -->
+    <div id="errorBanner" class="error-banner" style="display:none">
+      ⚠️ <span id="errorText"></span>
+    </div>
+
+    <!-- 连接地址 -->
+    <div class="panel">
+      <div class="panel-title"><span class="icon">🔗</span> 玩家连接地址</div>
+      <div class="url-section">
+        <div class="url-row">
+          <span class="url-label">🟢 局域网</span>
+          <span class="url-link lan" id="urlLan">http://192.168.x.x:8080</span>
+          <div class="url-qr-row">
+            <img class="qr-img" id="qrLan" alt="QR" style="display:none">
+            <button class="btn btn-primary" onclick="copyUrl('urlLan')" title="复制局域网地址">📋 复制</button>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:4px;">
+        💡 让同一 WiFi / 局域网下的玩家在浏览器中输入上面的<strong style="color:#f0c040;">局域网地址</strong>即可加入游戏
+      </p>
+    </div>
+
+    <!-- 房间列表 -->
+    <div class="panel">
+      <div class="panel-title"><span class="icon">🏠</span> 活跃房间</div>
+      <div id="roomList"><div class="room-list-empty">暂无活跃房间</div></div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="actions">
+      <button class="btn btn-primary" onclick="openGame()">🎮 打开游戏页面</button>
+      <button class="btn btn-danger" id="btnStopServer" onclick="showConfirm()">⏹️ 停止服务器</button>
+    </div>
+  </div>
+
+  <script>
+    // ========== 状态 ==========
+    let serverOnline = false;
+    let refreshTimer = null;
+    const HTTP_PORT = 8080;
+
+    // ========== 元素引用 ==========
+    const $ = (id) => document.getElementById(id);
+    const offlineView = $('offlineView');
+    const mainPanel = $('mainPanel');
+    const offlineText = $('offlineText');
+
+    // ========== 切换视图 ==========
+    function showOffline(msg, hint) {
+      serverOnline = false;
+      offlineView.style.display = 'flex';
+      mainPanel.style.display = 'none';
+      offlineText.textContent = msg || '正在连接服务器...';
+
+      // 有明确错误提示时显示警告图标和帮助文字
+      const icon = $('offlineIcon');
+      const hintEl = $('offlineHint');
+      const spinner = $('offlineSpinner');
+      if (hint) {
+        icon.style.display = 'block';
+        hintEl.style.display = 'block';
+        hintEl.textContent = hint;
+        spinner.style.display = 'none';
+      } else {
+        icon.style.display = 'none';
+        hintEl.style.display = 'none';
+        spinner.style.display = 'block';
+      }
+
+      if ($('dotStatus')) {
+        $('dotStatus').className = 'stat-dot offline';
+        $('valStatus').textContent = '离线';
+      }
+    }
+
+    function showOnline() {
+      serverOnline = true;
+      offlineView.style.display = 'none';
+      mainPanel.style.display = 'block';
+      $('dotStatus').className = 'stat-dot online';
+      $('valStatus').textContent = '运行中';
+      $('errorBanner').style.display = 'none';
+    }
+
+    // ========== 显示错误 ==========
+    function showError(msg) {
+      $('errorBanner').style.display = 'flex';
+      $('errorText').textContent = msg;
+    }
+
+    // ========== 格式化运行时长 ==========
+    function formatUptime(seconds) {
+      if (!seconds && seconds !== 0) return '--';
+      const d = Math.floor(seconds / 86400);
+      const h = Math.floor((seconds % 86400) / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      if (d > 0) return `${d}天 ${h}时 ${m}分`;
+      if (h > 0) return `${h}时 ${m}分 ${s}秒`;
+      if (m > 0) return `${m}分 ${s}秒`;
+      return `${s}秒`;
+    }
+
+    // ========== 游戏状态标签 ==========
+    function gameStateBadge(state) {
+      const map = {
+        'preparing': '<span class="badge badge-preparing">准备中</span>',
+        'in_gaming': '<span class="badge badge-playing">游戏中</span>',
+        'ended': '<span class="badge badge-ended">已结束</span>',
+      };
+      return map[state] || `<span class="badge badge-ended">${state}</span>`;
+    }
+
+    // ========== 渲染房间列表 ==========
+    function renderRooms(rooms) {
+      const container = $('roomList');
+      const entries = Object.entries(rooms);
+      if (entries.length === 0) {
+        container.innerHTML = '<div class="room-list-empty">暂无活跃房间</div>';
+        $('valRoomCount').textContent = '0';
+        return;
+      }
+      $('valRoomCount').textContent = String(entries.length);
+      container.innerHTML = entries.map(([code, info]) => `
+        <div class="room-item">
+          <span class="room-code">${escapeHtml(code)}</span>
+          <div class="room-info">
+            ${gameStateBadge(info.gameState)}
+            <span>👥 ${info.playerCount} 人</span>
+            ${info.gamePhase ? `<span>📍 ${escapeHtml(info.gamePhase)}</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(s) {
+      const el = document.createElement('span');
+      el.textContent = s;
+      return el.innerHTML;
+    }
+
+    // ========== 复制 URL ==========
+    function copyUrl(id) {
+      const el = $(id);
+      const text = el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('✅ 已复制到剪贴板');
+      }).catch(() => {
+        showToast('⚠️ 复制失败，请手动选择文字');
+      });
+    }
+
+    // ========== Toast ==========
+    let toastTimer;
+    function showToast(msg) {
+      const t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+    }
+
+    // ========== 确认对话框 ==========
+    function showConfirm() {
+      $('confirmOverlay').classList.remove('hidden');
+    }
+    function hideConfirm() {
+      $('confirmOverlay').classList.add('hidden');
+    }
+
+    // ========== 停止服务器 ==========
+    async function shutdownServer() {
+      hideConfirm();
+      try {
+        const res = await fetch('/api/shutdown', { method: 'POST' });
+        const data = await res.json();
+        showToast('🛑 ' + data.message);
+        showOffline('服务器已停止');
+      } catch {
+        // 服务器已关闭，fetch 会失败
+        showOffline('服务器已停止');
+      }
+      stopRefresh();
+    }
+
+    // ========== 打开游戏页面 ==========
+    function openGame() {
+      window.open('/index.html', '_blank');
+    }
+
+    // ========== 生成二维码 URL ==========
+    function qrUrl(text) {
+      return 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(text);
+    }
+
+    // ========== 刷新状态 ==========
+    async function refreshStatus() {
+      try {
+        const res = await fetch('/api/status');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        if (!serverOnline) showOnline();
+
+        // IP 和 URL
+        const ip = data.localIp || '127.0.0.1';
+        const httpPort = data.httpPort || HTTP_PORT;
+        const lanUrl = `http://${ip}:${httpPort}`;
+
+        $('urlLan').textContent = lanUrl;
+
+        // 二维码
+        $('qrLan').src = qrUrl(lanUrl);
+        $('qrLan').style.display = 'inline';
+
+        // 运行时长
+        $('valUptime').textContent = formatUptime(data.uptime);
+
+        // 连接数
+        $('valConnections').textContent = String(data.totalConnections || 0);
+
+        // 房间
+        renderRooms(data.rooms || {});
+
+      } catch (err) {
+        if (serverOnline) {
+          showError('无法连接到服务器 (' + err.message + ')，服务器可能已停止');
+        }
+        showOffline('连接失败，正在重试...');
+      }
+    }
+
+    function startRefresh() {
+      refreshStatus();
+      refreshTimer = setInterval(refreshStatus, 3000);
+    }
+
+    function stopRefresh() {
+      if (refreshTimer) {
+        clearInterval(refreshTimer);
+        refreshTimer = null;
+      }
+    }
+
+    // ========== 初始化 ==========
+    function init() {
+      // 检测是否通过 file:// 直接打开（必须通过 HTTP 服务器访问）
+      if (window.location.protocol === 'file:') {
+        showOffline(
+          '❌ 不能直接打开此文件',
+          '请使用项目根目录下的 start.bat（Windows）或 start.sh（Mac）启动服务器，\n服务器会自动在浏览器中打开此页面。\n\n或者先在终端运行 node server.js，\n再在浏览器中访问 http://localhost:8080/launcher.html'
+        );
+        return;
+      }
+
+      $('btnConfirmShutdown').addEventListener('click', shutdownServer);
+      $('btnStopServer').addEventListener('click', showConfirm);
+
+      // 点击对话框背景关闭
+      $('confirmOverlay').addEventListener('click', (e) => {
+        if (e.target === $('confirmOverlay')) hideConfirm();
+      });
+
+      startRefresh();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

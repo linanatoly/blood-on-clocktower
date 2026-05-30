@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#040218">
+  <meta name="apple-mobile-web-app-title" content="血染钟楼">
+
+  <title>血染钟楼</title>
+
+  <link rel="apple-touch-icon" href="assets/god_head.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="src/styles/variables.css">
+  <link rel="stylesheet" href="src/styles/base.css">
+  <link rel="stylesheet" href="src/styles/utilities.css">
+  <link rel="stylesheet" href="src/styles/mobile.css">
+  <link rel="stylesheet" href="src/styles/game-table.css">
+  <link rel="stylesheet" href="src/styles/seat-popup.css">
+  <link rel="stylesheet" href="src/styles/chat-panel.css">
+  <link rel="stylesheet" href="src/styles/function-panel.css">
+  <link rel="stylesheet" href="src/styles/role-select.css">
+  <link rel="stylesheet" href="src/styles/group-chat.css">
+  <link rel="stylesheet" href="src/styles/waiting-list.css">
+  <link rel="stylesheet" href="src/styles/lobby.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 大厅页面（LobbyPage 接管此容器） -->
+    <div id="page-lobby"></div>
+
+    <!-- 游戏页面 -->
+    <div id="page-game" class="hidden">
+      <div id="game-top-bar" class="game-top-bar"></div>
+      <div id="game-main"></div>
+      <div id="panel-chat" class="hidden"></div>
+      <div id="panel-event-log" class="hidden"></div>
+      <div id="panel-function"></div>
+    </div>
+
+    <!-- 通用弹层 -->
+    <div id="overlay-avatar" class="overlay hidden"></div>
+    <div id="overlay-group-chat" class="overlay hidden"></div>
+    <div id="overlay-seat-popup"></div>
+    <div id="overlay-waiting-list"></div>
+  </div>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

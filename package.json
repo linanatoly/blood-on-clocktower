@@ -1,0 +1,23 @@
+{
+  "name": "blood-clock",
+  "version": "1.0.0",
+  "description": "血染钟楼 - 纯 HTML/CSS/JS 重构版",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/cli": "^0.1.13",
+    "@playwright/test": "^1.52.0",
+    "@vitest/ui": "^3.1.1",
+    "jsdom": "^26.0.0",
+    "vitest": "^3.1.1"
+  },
+  "dependencies": {
+    "ws": "^8.21.0"
+  }
+}

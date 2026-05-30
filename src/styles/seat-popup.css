@@ -1,0 +1,83 @@
+/* ===================================================================
+   seat-popup.css — 座位操作弹窗
+   配合 SeatPopup.js 使用
+   =================================================================== */
+
+.seat-popup-overlay {
+  /* .overlay 基类已提供 position/inset/background/z-index */
+}
+
+.seat-popup-box {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 26, 46, 0.96);
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 220px; max-width: 90%;
+  border: 2px solid #4a4a8a;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.seat-popup-title {
+  color: #FFD700;
+  font-size: 18px;
+  text-align: center;
+  margin: 0 0 4px 0;
+}
+
+.seat-popup-close {
+  position: absolute; top: 8px; right: 12px;
+  background: none; border: none; color: #aaa;
+  font-size: 22px; cursor: pointer; line-height: 1;
+  padding: 4px 8px;
+  min-width: unset; min-height: unset;
+}
+
+.seat-popup-close:active {
+  color: #fff;
+}
+
+.seat-popup-actions {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center;
+}
+
+.btn-action {
+  padding: 10px 14px;
+  font-size: 15px;
+  border: none; border-radius: 6px;
+  background: #5a5a9a; color: #fff;
+  cursor: pointer;
+  min-height: var(--touch-min, 44px);
+  transition: background 0.15s;
+}
+
+.btn-action:active {
+  background: #7a7aba;
+}
+
+.btn-action[data-action="deadTicket"],
+.btn-action[data-action="deadNoTicket"] {
+  background: #7a3a3a;
+}
+
+.btn-action[data-action="deadTicket"]:active,
+.btn-action[data-action="deadNoTicket"]:active {
+  background: #9a4a4a;
+}
+
+.btn-action[data-action="alive"] {
+  background: #3a7a3a;
+}
+
+.btn-action[data-action="alive"]:active {
+  background: #4a9a4a;
+}
+
+.btn-action[data-action="drunk"] {
+  background: #6a4a8a;
+}
+
+.btn-action[data-action="drunk"]:active {
+  background: #8a6aaa;
+}

@@ -1,0 +1,49 @@
+/* 隐藏 */
+.hidden {
+  display: none !important;
+}
+
+/* 全屏遮罩 */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: var(--z-overlay);
+}
+
+/* 弹性居中 */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 按钮基础 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--color-text);
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary {
+  background-color: var(--color-accent);
+  color: #1a1a2e;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+}
