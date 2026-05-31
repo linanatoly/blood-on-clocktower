@@ -16,15 +16,6 @@
 
 ## 🚀 快速开始
 
-### 方式一：免安装版（推荐，无需 Node.js）
-
-1. 双击 `start.bat` 或 `server.exe`
-2. 浏览器自动打开，开始游戏
-
-就这么简单。`server.exe` 内置了 Node.js 运行时，完全不需要额外安装。
-
-### 方式二：源码版（开发者）
-
 **环境要求**：[Node.js](https://nodejs.org/) >= 16
 
 ```bash
@@ -41,7 +32,7 @@ node server.js
 
 ### 一键启动
 
-- **Windows**: 双击 `start.bat`（自动选择免安装或 Node.js 模式）
+- **Windows**: 双击 `start.bat`
 - **macOS / Linux**: 运行 `./start.sh`
 
 ## 📖 使用说明

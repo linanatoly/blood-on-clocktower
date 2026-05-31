@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>血染钟楼 — 上帝操作手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Cinzel:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0a0505;
+  --bg-dark: #120a0a;
+  --bg-card: #1a0f0f;
+  --bg-card-hover: #221515;
+  --gold: #c9a96e;
+  --gold-light: #d4b87a;
+  --gold-dark: #a0783c;
+  --red: #8b0000;
+  --red-bright: #a01010;
+  --red-dark: #5c0000;
+  --text: #c8c0b8;
+  --text-dim: #8a8078;
+  --text-bright: #e8e0d8;
+  --border: #2a1818;
+  --border-gold: #3a2818;
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --shadow-gold: 0 0 40px rgba(201,169,110,0.08);
+  --radius: 12px;
+  --radius-sm: 6px;
+  --max-width: 1000px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: 'Noto Sans SC', sans-serif;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* Background texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(139,0,0,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 100%, rgba(201,169,110,0.03) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a96e' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Top Nav */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(10,5,5,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color 0.3s;
+}
+nav.scrolled { border-bottom-color: var(--border-gold); }
+
+.nav-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.78rem;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.nav-links a:hover { color: var(--gold); background: rgba(201,169,110,0.06); }
+
+/* Hero */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 20px 80px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(139,0,0,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(201,169,110,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  padding: 8px 20px;
+  border-radius: 999px;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 900;
+  color: var(--text-bright);
+  line-height: 1.2;
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+.hero h1 span { color: var(--gold); }
+
+.hero .subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  margin: 28px auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  animation: float 2s ease-in-out infinite;
+}
+.hero-scroll svg { width: 28px; height: 28px; opacity: 0.5; }
+
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* Sections */
+main { position: relative; z-index: 1; }
+
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+.section-header {
+  margin-bottom: 48px;
+}
+.section-number {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--red-bright);
+  display: block;
+  margin-bottom: 8px;
+}
+.section-header h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1.3;
+}
+.section-header p {
+  color: var(--text-dim);
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow), var(--shadow-gold);
+}
+
+.card h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card h3 .icon { font-size: 1.4rem; }
+
+.card p, .card li {
+  color: var(--text);
+  font-size: 0.92rem;
+  margin-bottom: 10px;
+}
+.card ul, .card ol {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+.card li { margin-bottom: 6px; }
+.card strong { color: var(--gold-light); }
+
+/* Screenshots */
+.screenshots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+.screenshots.single { grid-template-columns: 1fr; max-width: 600px; }
+
+.screenshot-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, border-color 0.3s;
+  background: var(--bg-deep);
+  cursor: pointer;
+  position: relative;
+}
+.screenshot-wrap:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-gold);
+}
+.screenshot-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.screenshot-caption {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  padding: 10px 12px;
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border);
+}
+.screenshot-wrap .expand-hint {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.screenshot-wrap:hover .expand-hint { opacity: 1; }
+
+/* Lightbox */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.92);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.lightbox.active { display: flex; }
+.lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-gold);
+  box-shadow: 0 0 60px rgba(201,169,110,0.1);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  z-index: 1;
+  transition: color 0.3s;
+}
+.lightbox-close:hover { color: var(--gold); }
+
+/* Tip box */
+.tip {
+  background: linear-gradient(135deg, rgba(201,169,110,0.06), rgba(201,169,110,0.02));
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+.tip strong { color: var(--gold); }
+
+.warning {
+  background: linear-gradient(135deg, rgba(139,0,0,0.1), rgba(139,0,0,0.03));
+  border-left: 3px solid var(--red);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-size: 0.88rem;
+}
+.warning strong { color: var(--red-bright); }
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  margin: 16px 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+thead th {
+  background: var(--red-dark);
+  color: var(--text-bright);
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-family: 'Noto Serif SC', serif;
+  white-space: nowrap;
+}
+thead th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+thead th:last-child { border-radius: 0 var(--radius-sm) 0 0; }
+tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+tbody tr:hover { background: rgba(201,169,110,0.03); }
+tbody tr:last-child td:first-child { border-radius: 0 0 0 var(--radius-sm); }
+tbody tr:last-child td:last-child { border-radius: 0 0 var(--radius-sm) 0; }
+
+/* Phase timeline */
+.phase-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0;
+}
+.phase-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.82rem;
+  color: var(--text-bright);
+  white-space: nowrap;
+}
+.phase-arrow { color: var(--gold); font-size: 0.9rem; }
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 60px 20px 40px;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+footer .quote {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+footer .credit {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+/* Dividers */
+.divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+  margin: 60px auto;
+}
+
+/* Animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  nav { justify-content: center; }
+  .section { padding: 50px 16px; }
+  .card { padding: 20px; }
+  .screenshots { grid-template-columns: 1fr; }
+  .hero { min-height: 90vh; padding: 80px 16px 60px; }
+  .hero h1 { font-size: 1.8rem; }
+}
+
+/* TOC */
+.toc {
+  max-width: var(--max-width);
+  margin: 0 auto 60px;
+  padding: 0 20px;
+}
+.toc-inner {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+}
+.toc-inner h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.toc-inner ol {
+  list-style: none;
+  counter-reset: toc;
+  columns: 2;
+  column-gap: 30px;
+}
+@media (max-width: 600px) { .toc-inner ol { columns: 1; } }
+.toc-inner li {
+  counter-increment: toc;
+  margin-bottom: 8px;
+}
+.toc-inner a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: color 0.25s;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.toc-inner a::before {
+  content: counter(toc, decimal-leading-zero);
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  color: var(--red-bright);
+  min-width: 20px;
+}
+.toc-inner a:hover { color: var(--gold); }
+
+/* Quick ref badge pills */
+.badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.badge {
+  font-size: 0.78rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  background: var(--bg-dark);
+}
+.badge.red { border-color: var(--red); color: var(--red-bright); }
+.badge.gold { border-color: var(--border-gold); color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- ========== NAVIGATION ========== -->
+<nav id="nav">
+  <div class="nav-brand">🩸 血染钟楼</div>
+  <ul class="nav-links">
+    <li><a href="#toc">目录</a></li>
+    <li><a href="#create">创建房间</a></li>
+    <li><a href="#prepare">准备阶段</a></li>
+    <li><a href="#roles">角色选择</a></li>
+    <li><a href="#god-assign">上帝指定</a></li>
+    <li><a href="#gaming">游戏进行</a></li>
+    <li><a href="#events">事件记录</a></li>
+    <li><a href="#chat">聊天</a></li>
+    <li><a href="#ending">复盘</a></li>
+    <li><a href="#quickref">速查表</a></li>
+  </ul>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="hero-badge">STORYTELLER GUIDE</div>
+  <h1>血染钟楼<br><span>上帝操作手册</span></h1>
+  <p class="subtitle">T H E  S T O R Y T E L L E R ' S  G R I M O I R E</p>
+  <div class="hero-divider"></div>
+  <p style="position:relative;z-index:2;color:var(--text-dim);max-width:500px;font-size:0.9rem;">
+    欢迎担任血染钟楼的<strong>上帝（说书人）</strong>！本手册将引导你完成主持整场游戏的全部流程。
+  </p>
+  <div class="hero-scroll">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</header>
+
+<main>
+
+<!-- ========== TOC ========== -->
+<div class="toc fade-in" id="toc">
+  <div class="toc-inner">
+    <h3>📜 目 录</h3>
+    <ol>
+      <li><a href="#create">创建房间</a></li>
+      <li><a href="#prepare">准备阶段</a></li>
+      <li><a href="#roles">角色选择</a></li>
+      <li><a href="#god-assign">上帝指定模式</a></li>
+      <li><a href="#gaming">游戏进行中</a></li>
+      <li><a href="#events">事件记录器</a></li>
+      <li><a href="#chat">聊天功能</a></li>
+      <li><a href="#ending">结束游戏与复盘</a></li>
+      <li><a href="#quickref">按钮速查表</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ========== 1. 创建房间 ========== -->
+<section class="section fade-in" id="create">
+  <div class="section-header">
+    <span class="section-number">CHAPTER 01</span>
+    <h2>创建房间</h2>
+    <p>打开游戏页面，进入大厅，以"上帝"身份创建一个新房间。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🏰</span> 操作步骤</h3>
+    <ol>
+      <li>打开游戏页面，默认进入<strong>大厅</strong>。</li>
+      <li>点击顶部 <strong>"我是上帝"</strong> 标签页。</li>
+      <li>填写 <strong>房间号</strong>（4 位数字），与玩家约定好。</li>
+      <li>拖动<strong>人数滑块</strong>设置总人数（5—15 人）。</li>
+      <li>配置<strong>阵营人数</strong>：村民、外来者、爪牙、恶魔，四者之和必须等于总人数。</li>
+      <li>点击 <strong>"开房间"</strong> 按钮。</li>
+    </ol>
+    <div class="tip">
+      💡 <strong>提示：</strong>房间号建议使用不容易被猜到的数字组合，避免陌生人误入。
+    </div>
+  </div>
+
+  <div class="screenshots single">
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/01-lobby.png" alt="大厅界面 - 上帝创建房间" loading="lazy">
+      <div class="screenshot-caption">▲ 大厅界面：填写房间号、设置人数和阵营配置后，点击"开房间"</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 2. 准备阶段 ========== -->
+<section class="section fade-in" id="prepare">
+  <div class="section-header">
+    <span class="section-number">CHAPTER 02</span>
+    <h2>准备阶段</h2>
+    <p>进入游戏页面后，底部操作栏会显示上帝专用的功能按钮。顶部状态栏显示当前阶段和房间号。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">👥</span> 等待玩家加入</h3>
+    <ul>
+      <li>玩家加入后，游戏桌面上会出现对应数量的<strong>座位卡牌</strong>。</li>
+      <li>玩家需要<strong>入座</strong>（点击座位 → 坐这）并<strong>选择角色</strong>（或等待上帝分配），最后点击<strong>准备</strong>。</li>
+      <li>每位玩家准备后，其座位上会显示 <strong>"已准备"</strong> 标记。</li>
+      <li>当所有玩家准备完毕，你就可以<strong>开始游戏</strong>了。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🔄</span> 角色分配模式切换</h3>
+    <p>在准备阶段，你可以通过底部 <strong>"模式：玩家自选" / "模式：上帝指定"</strong> 按钮切换角色分配方式：</p>
+    <table>
+      <thead><tr><th>模式</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>玩家自选</strong>（默认）</td><td>玩家自己点击座位 →「设置角色」选择角色</td></tr>
+        <tr><td><strong>上帝指定</strong></td><td>玩家无法自己选角色，由上帝为每位玩家分配</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;">点击按钮即可实时切换，切换后所有玩家的弹窗会自动关闭。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🍷</span> 设置酒鬼标记</h3>
+    <ol>
+      <li>点击该玩家的座位。</li>
+      <li>在弹窗中点击 <strong>"他是酒鬼"</strong>。</li>
+      <li>该玩家头像右下角会出现 🍷 酒鬼图标。</li>
+      <li>再次点击 <strong>"取消酒鬼"</strong> 可移除标记。</li>
+    </ol>
+    <div class="warning">
+      ⚠️ <strong>注意：</strong>酒鬼标记互斥——同一时间只有一位玩家可被标记为酒鬼。标记新玩家会自动取消旧的标记。
+    </div>
+  </div>
+
+  <div class="screenshots">
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/02-preparing-god.png" alt="上帝视角准备阶段" loading="lazy">
+      <div class="screenshot-caption">▲ 上帝视角：准备阶段，7个空座位等待玩家加入</div>
+    </div>
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/05-player-ready-god-view.png" alt="玩家已准备" loading="lazy">
+      <div class="screenshot-caption">▲ 上帝视角：玩家"小红"入座并选好角色后显示"已准备"</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 3. 角色选择 ========== -->
+<section class="section fade-in" id="roles">
+  <div class="section-header">
+    <span class="section-number">CHAPTER 03</span>
+    <h2>角色选择（玩家自选模式）</h2>
+    <p>在默认的"玩家自选"模式下，每位玩家自行选择角色。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🎭</span> 选角流程</h3>
+    <ol>
+      <li>玩家点击自己的座位，在弹窗中点击<strong>"设置角色"</strong>。</li>
+      <li>角色按<strong>四大阵营</strong>分类展示：村民、外来者、爪牙、恶魔。</li>
+      <li>点击任一角色卡片选中，再点击<strong>"确认选择"</strong>完成选角。</li>
+      <li>选角完成后，座位上会显示<strong>角色名称和头像</strong>。</li>
+      <li>点击<strong>"✅ 准备"</strong>按钮表示已就绪。</li>
+    </ol>
+    <div class="badge-list">
+      <span class="badge">村民：洗衣妇、图书管理员、调查员、厨师、共情者、占卜师、掘墓人、僧侣、守鸦人、圣女、杀手、士兵、市长</span>
+      <span class="badge gold">外来者：管家、酒鬼、圣徒、隐士</span>
+      <span class="badge red">爪牙：下毒者、间谍、魅魔、男爵</span>
+      <span class="badge red">恶魔：小恶魔</span>
+    </div>
+  </div>
+
+  <div class="screenshots">
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/03-role-selection.png" alt="角色选择面板" loading="lazy">
+      <div class="screenshot-caption">▲ 角色选择面板：四大阵营分类，点击角色后确认</div>
+    </div>
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/04-role-assigned.png" alt="角色已选定" loading="lazy">
+      <div class="screenshot-caption">▲ 角色选定后：座位上显示角色名，"✅ 准备"按钮可用</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 4. 上帝指定模式 ========== -->
+<section class="section fade-in" id="god-assign">
+  <div class="section-header">
+    <span class="section-number">CHAPTER 04</span>
+    <h2>上帝指定模式</h2>
+    <p>切换至"上帝指定"模式后，由上帝为每位已入座的玩家分配角色。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">👑</span> 操作步骤</h3>
+    <ol>
+      <li>点击底部 <strong>"模式：上帝指定"</strong> 按钮切换。</li>
+      <li><strong>点击</strong>某个已入座的玩家座位。</li>
+      <li>在弹出的面板中，点击 <strong>"设置角色"</strong>。</li>
+      <li>在角色选择界面中选择一个角色，点击<strong>确认</strong>。</li>
+      <li>重复以上步骤，为每位玩家分配角色。</li>
+    </ol>
+    <div class="warning">
+      ⚠️ <strong>注意：</strong>如果玩家还没有被分配角色就点击准备按钮，会看到「等待上帝分配角色」的提示，无法准备。
+    </div>
+  </div>
+
+  <div class="screenshots">
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/06-god-assign-mode.png" alt="上帝指定模式" loading="lazy">
+      <div class="screenshot-caption">▲ 上帝指定模式：底部按钮变为"模式：上帝指定"</div>
+    </div>
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/07-god-seat-popup.png" alt="上帝座位弹窗" loading="lazy">
+      <div class="screenshot-caption">▲ 点击玩家座位弹窗：显示"设置角色"、"聊天"、"他是酒鬼"按钮</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 5. 游戏进行中 ========== -->
+<section class="section fade-in" id="gaming">
+  <div class="section-header">
+    <span class="section-number">CHAPTER 05</span>
+    <h2>游戏进行中</h2>
+    <p>游戏开始后，进入昼夜阶段循环。底部操作栏自动切换为游戏中的状态。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🌙☀️</span> 推进昼夜阶段</h3>
+    <p>游戏按以下顺序推进：</p>
+    <div class="phase-flow">
+      <span class="phase-node">第一夜</span><span class="phase-arrow">→</span>
+      <span class="phase-node">第一日</span><span class="phase-arrow">→</span>
+      <span class="phase-node">第二夜</span><span class="phase-arrow">→</span>
+      <span class="phase-node">第二日</span><span class="phase-arrow">→</span>
+      <span class="phase-node">…</span><span class="phase-arrow">→</span>
+      <span class="phase-node">第十九夜</span><span class="phase-arrow">→</span>
+      <span class="phase-node">第二十日</span>
+    </div>
+    <table>
+      <thead><tr><th>按钮</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td><strong>◀ 上一阶段</strong></td><td>回退到上一个阶段（用于纠正误操作）</td></tr>
+        <tr><td><strong>▶ 下一阶段</strong></td><td>推进到下一个阶段</td></tr>
+      </tbody>
+    </table>
+    <div class="tip">
+      💡 <strong>提示：</strong>在夜间，依次唤醒需要夜间行动的角色（恶魔、占卜师等），通过私聊告知行动结果。在日间，主持讨论、提名和投票。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">💀</span> 设置玩家存活/死亡状态</h3>
+    <p>点击玩家座位，弹窗中会出现三个状态按钮：</p>
+    <table>
+      <thead><tr><th>按钮</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td><strong>存活</strong></td><td>玩家正常存活</td></tr>
+        <tr><td><strong>死亡有票</strong></td><td>玩家死亡但仍有一票投票权（如被处决前的遗言票）</td></tr>
+        <tr><td><strong>死亡无票</strong></td><td>玩家死亡且无投票权（常规死亡状态）</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;">游戏桌面上，死亡玩家会显示 ☠️ 死亡标记和划线。</p>
+  </div>
+
+  <div class="screenshots">
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/08-game-night1.png" alt="游戏进行中 - 第一夜" loading="lazy">
+      <div class="screenshot-caption">▲ 游戏进行中："第一夜"阶段，底部按钮切换为阶段控制和结束游戏</div>
+    </div>
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/09-game-seat-popup.png" alt="游戏中的座位弹窗" loading="lazy">
+      <div class="screenshot-caption">▲ 点击玩家座位弹窗：存活/死亡有票/死亡无票 状态切换 + 酒鬼标记</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 6. 事件记录器 ========== -->
+<section class="section fade-in" id="events">
+  <div class="section-header">
+    <span class="section-number">CHAPTER 06</span>
+    <h2>事件记录器</h2>
+    <p>点击底部"📋 记录"按钮打开。上帝专属日志工具，用于追踪游戏中的关键事件。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">📝</span> 记录事件的方式</h3>
+    <ul>
+      <li><strong>快捷模板</strong>：从预设列表中点击一个模板（如"死亡""被处决""下毒""调查"等），然后选择涉及的玩家即可快速生成一条记录。</li>
+      <li><strong>自定义记录</strong>：直接在输入框中输入任意文字记录。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">📂</span> 模板分类</h3>
+    <table>
+      <thead><tr><th>类别</th><th>模板示例</th></tr></thead>
+      <tbody>
+        <tr><td>单玩家事件</td><td>死亡、被处决、没有死亡、无外来者</td></tr>
+        <tr><td>双玩家事件</td><td>攻击、下毒、保护、调查、开枪、提名、占卜、选择</td></tr>
+        <tr><td>数字事件</td><td>得票（{n}票）、获得数字</td></tr>
+        <tr><td>身份事件</td><td>被视为、变成、得知了</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;">每条记录会自动标注类型标签（死亡/复活/阶段/开局/记录）并以不同颜色区分。</p>
+    <div class="tip">
+      📝 <strong>提示：</strong>所有事件记录<strong>仅上帝可见</strong>，玩家看不到。复盘阶段事件记录会保留，方便回顾。建议每次夜间行动后及时记录。
+    </div>
+  </div>
+
+  <div class="screenshots">
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/10-event-log.png" alt="事件记录器" loading="lazy">
+      <div class="screenshot-caption">▲ 事件记录器面板：显示当前阶段和已有事件记录</div>
+    </div>
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/11-event-recording.png" alt="事件记录表单" loading="lazy">
+      <div class="screenshot-caption">▲ 记录事件表单：选择玩家 + 快捷模板或自定义输入</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 7. 聊天 ========== -->
+<section class="section fade-in" id="chat">
+  <div class="section-header">
+    <span class="section-number">CHAPTER 07</span>
+    <h2>聊天功能</h2>
+    <p>点击底部"💬 聊天"按钮打开聊天面板。上帝支持两种聊天方式。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">💬</span> 聊天类型</h3>
+    <table>
+      <thead><tr><th>类型</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>私聊</strong></td><td>点击玩家座位 →「聊天」，一对一与该玩家私聊。用于夜间告知行动结果。</td></tr>
+        <tr><td><strong>上帝群聊</strong></td><td>在聊天面板中创建群聊，同时与多位玩家沟通。</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;">聊天面板顶部有未读消息提示。聊天记录会在重连时自动同步恢复。</p>
+  </div>
+
+  <div class="screenshots single">
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/12-chat-panel.png" alt="聊天面板" loading="lazy">
+      <div class="screenshot-caption">▲ 聊天面板：可发起群聊，点击玩家座位可私聊</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 8. 结束游戏与复盘 ========== -->
+<section class="section fade-in" id="ending">
+  <div class="section-header">
+    <span class="section-number">CHAPTER 08</span>
+    <h2>结束游戏与复盘</h2>
+    <p>当游戏分出胜负后，结束游戏进入复盘阶段。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🏁</span> 复盘流程</h3>
+    <ol>
+      <li>点击底部 <strong>"🏁 结束游戏"</strong> 按钮。</li>
+      <li>游戏进入<strong>复盘阶段</strong>。此时：
+        <ul>
+          <li>所有玩家的<strong>真实角色公开</strong>，所有人都能看到彼此的角色。</li>
+          <li>事件记录可完整回看。</li>
+          <li>无法再修改玩家状态或记录新事件。</li>
+        </ul>
+      </li>
+      <li>复盘结束后，你可以选择：
+        <ul>
+          <li><strong>"↩ 返回准备"</strong>：回到准备阶段，清空所有角色和状态（保留角色分配模式），开始新一轮。</li>
+          <li><strong>"解散房间"</strong>：彻底关闭房间，所有玩家被移出。</li>
+        </ul>
+      </li>
+    </ol>
+    <div class="warning">
+      ⚠️ <strong>注意：</strong>解散房间<strong>不可撤销</strong>，请确认所有玩家都已退出后再操作。
+    </div>
+  </div>
+
+  <div class="screenshots single">
+    <div class="screenshot-wrap" onclick="openLightbox(this)">
+      <span class="expand-hint">🔍 点击放大</span>
+      <img src="./screenshots/13-review-phase.png" alt="复盘阶段" loading="lazy">
+      <div class="screenshot-caption">▲ 复盘阶段：角色公开，底部显示"↩ 返回准备"按钮</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🔌</span> 断线重连</h3>
+    <ul>
+      <li>如果不小心关闭页面或网络断开，<strong>不要慌</strong>。</li>
+      <li>重新打开页面，游戏会自动尝试重连。</li>
+      <li>重连成功后，你会<strong>回到原房间</strong>，所有玩家、角色、事件记录和聊天记录完整恢复。</li>
+      <li>顶部状态栏显示连接状态：绿色"已连接"正常，黄色"尝试重连中"表示正在恢复连接。</li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== 9. 按钮速查表 ========== -->
+<section class="section fade-in" id="quickref">
+  <div class="section-header">
+    <span class="section-number">QUICK REFERENCE</span>
+    <h2>按钮速查表</h2>
+    <p>各阶段上帝可用按钮一览。</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🔧</span> 准备阶段</h3>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>按钮</th><th>作用</th><th>何时可见</th></tr></thead>
+      <tbody>
+        <tr><td>💬 聊天</td><td>打开聊天面板</td><td>始终</td></tr>
+        <tr><td>📋 记录</td><td>打开事件记录器</td><td>始终</td></tr>
+        <tr><td>模式：玩家自选 / 上帝指定</td><td>切换角色分配模式</td><td>准备阶段</td></tr>
+        <tr><td>▶ 开始游戏</td><td>开始游戏</td><td>所有玩家准备后</td></tr>
+        <tr><td>解散房间</td><td>解散当前房间</td><td>准备阶段</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🎮</span> 游戏中</h3>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>按钮</th><th>作用</th><th>何时可见</th></tr></thead>
+      <tbody>
+        <tr><td>◀ 上一阶段</td><td>回到上一阶段</td><td>游戏中</td></tr>
+        <tr><td>▶ 下一阶段</td><td>推进到下一阶段</td><td>游戏中</td></tr>
+        <tr><td>🏁 结束游戏</td><td>结束游戏进入复盘</td><td>游戏中</td></tr>
+        <tr><td>💬 聊天</td><td>打开聊天面板</td><td>始终</td></tr>
+        <tr><td>📋 记录</td><td>打开事件记录器</td><td>始终</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">📊</span> 复盘阶段</h3>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>按钮</th><th>作用</th><th>何时可见</th></tr></thead>
+      <tbody>
+        <tr><td>↩ 返回准备</td><td>清空角色回准备阶段</td><td>复盘阶段</td></tr>
+        <tr><td>💬 聊天</td><td>打开聊天面板</td><td>始终</td></tr>
+        <tr><td>📋 记录</td><td>查看事件记录</td><td>始终</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">🪑</span> 座位弹窗（点击玩家座位）</h3>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>按钮</th><th>作用</th><th>何时可见</th></tr></thead>
+      <tbody>
+        <tr><td>设置角色</td><td>为玩家选角色</td><td>准备阶段（上帝指定）/ 游戏中</td></tr>
+        <tr><td>聊天</td><td>与该玩家私聊</td><td>座位有人且不是你</td></tr>
+        <tr><td>存活</td><td>设为存活状态</td><td>游戏中</td></tr>
+        <tr><td>死亡有票</td><td>设为死亡有票</td><td>游戏中</td></tr>
+        <tr><td>死亡无票</td><td>设为死亡无票</td><td>游戏中</td></tr>
+        <tr><td>他是酒鬼 / 取消酒鬼</td><td>切换酒鬼标记</td><td>准备阶段和游戏中</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <p class="quote">"说书人是血染钟楼的灵魂。"</p>
+  <p class="credit">
+    你不仅要执行游戏规则，更要为玩家创造沉浸式的故事体验。<br>
+    善用事件记录器和聊天功能，让每一局游戏都独一无二。
+  </p>
+  <p style="margin-top:24px;color:var(--text-dim);font-size:0.75rem;">
+    Blood on the Clocktower · Storyteller Guide · 血染钟楼上帝操作手册
+  </p>
+</footer>
+
+<!-- ========== LIGHTBOX ========== -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="截图放大">
+</div>
+
+<script>
+// Lightbox
+function openLightbox(wrap) {
+  const img = wrap.querySelector('img');
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  if (window.scrollY > 50) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+});
+</script>
+
+</body>
+</html>
